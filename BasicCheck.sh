@@ -46,7 +46,7 @@ grep -q "no leaks are possible"  memory.txt
    
              rm Thread.txt 
  
-               exit 0
+               exit 3
    
              else 
  
@@ -76,7 +76,7 @@ grep -q "no leaks are possible"  memory.txt
 
                 rm Thread.txt 
 	
-                exit 1	
+                exit 1
 
                 else
     
