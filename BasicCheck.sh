@@ -1,13 +1,13 @@
 #!/bin/bash
 
-folderName=$1
+folder=$1
 
-execute=$2
+Program=$2
 
-noneed=$3
+Agro=$3
 
 
-cd $folderName
+cd $folder
 
 
 make
@@ -16,57 +16,57 @@ make
 if [ $? -gt 0 ] 
  then
 
- echo "Error Compilation"
+ echo "Error"
 
- exit 7
+ exit 0
 
 else
 
-echo "Succes Compilation "
+echo "Succes  "
 
-valgrind --leak-check=full -v ./$execute > memoryleaks.txt 2>&1
+valgrind --leak-check=full -v ./$Program > memory.txt 2>&1
 
-grep -q "no leaks are possible"  memoryleaks.txt
+grep -q "no leaks are possible"  memory.txt
 
     if [ $? -eq 0 ] 
     then
 
-        echo "Memory leaks Sucess"
+        echo "leaks Sucess"
  
-       rm memoryleaks.txt  
+       rm memory.txt  
 
-        valgrind --tool=helgrind $folderName/$execute > Threadcheck.txt 2>&1
+        valgrind --tool=helgrind $folder/$Program > Thread.txt 2>&1
    
-     grep -q "ERROR SUMMARY: 0 errors" Threadcheck.txt
+     grep -q "ERROR SUMMARY: 0 errors" Thread.txt
 
             if [ $? -eq 0 ] 
             then
           
-      echo "Thread Race Succes"
+      echo "Thread Succes"
    
-             rm Threadcheck.txt 
+             rm Thread.txt 
  
                exit 0
    
              else 
  
-                   echo "Thread Race Failed"
+                   echo "Thread  Failed"
  
-                   rm Threadcheck.txt
+                   rm Thread.txt
      
-               exit 1
+               exit 2
 
              fi
 
     else
 
-        echo "Memory Leak Failed"
+        echo "Leak Failed"
   
-      rm memoryleaks.txt
+      rm memory.txt
 
-        valgrind --tool=helgrind $folderName/$execute > Threadcheck.txt 2>&1
+        valgrind --tool=helgrind $folder/$Program > Thread.txt 2>&1
    
-     grep -q "ERROR SUMMARY: 0 errors" Threadcheck.txt
+     grep -q "ERROR SUMMARY: 0 errors" Thread.txt
  
            if [ $? -eq 0 ] 
  
@@ -74,17 +74,17 @@ grep -q "no leaks are possible"  memoryleaks.txt
  
                echo "Thread  Succes"
 
-                rm Threadcheck.txt 
+                rm Thread.txt 
 	
-                exit 2	
+                exit 1	
 
                 else
     
                 echo "Thread Failed"
      
-               rm Threadcheck.txt 
+               rm Thread.txt 
 
-                    exit 3
+                    exit 0
   
           fi
   
