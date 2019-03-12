@@ -75,7 +75,7 @@ grep -q "no leaks are possible"  memoryleaks.txt
 
                 rm Threadcheck.txt 
 	
-                exit 1	
+                exit 0
 
                 else
     
@@ -83,7 +83,7 @@ grep -q "no leaks are possible"  memoryleaks.txt
      
                rm Threadcheck.txt 
 
-                    exit 1
+                    exit 0
   
           fi
   
